@@ -1,0 +1,28 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using PontoX.Application;
+using PontoX.Application.Interfaces;
+using PontoX.Domain.Core.Interfaces.Repositories;
+using PontoX.Domain.Entities;
+using PontoX.Domain.Service.ServiceUsuario;
+using PontoX.Infrastructure.Data.Repositories;
+using PontoX.Infrastucture.Infrastructure.Data.Repositories;
+using ServiceBlackDomain.Core.Interfaces.Services;
+using ServiceBlackDomain.Services;
+
+namespace PontoX.CrossCutting
+{
+    public class ConfigurationIOC
+    {
+        public static void LoadServices(IServiceCollection services)
+        {
+            services.AddScoped<IApplicationServiceUsuario, ApplicationServiceUsuario>();
+            services.AddScoped<IRepositoryUsuario, UsuarioRepository>();
+            services.AddScoped<IServiceUsuario, ServiceUsuario>();
+            services.AddScoped<IServiceBase<Usuario>, ServiceBase<Usuario>>();
+            services.AddScoped<IRepositoryBase<Usuario>, BaseRepository<Usuario>>();
+
+        }
+
+
+    }
+}
