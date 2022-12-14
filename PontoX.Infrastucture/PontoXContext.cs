@@ -6,20 +6,23 @@ namespace PontoX.Infrastucture
 {
     public class PontoXContext : DbContext
     {
+        public DbSet<Perfil> Perfis { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        
         public PontoXContext() { }
 
         public PontoXContext(DbContextOptions<PontoXContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var strConnection = "server=localhost;database=trabalho;user id=root;password=WWEpuiou12@; port=3306 ";
+            var strConnection = "server=127.0.0.1;database=trabalho;user id=root;password=Gabriel123; port=3306 ";
             optionsBuilder.UseMySql(strConnection, ServerVersion.Parse("8.0.31-mysql"));
         }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new PerfilConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
             base.OnModelCreating(modelBuilder);
         }

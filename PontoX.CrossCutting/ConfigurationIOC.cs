@@ -21,6 +21,12 @@ namespace PontoX.CrossCutting
             services.AddScoped<IServiceBase<Usuario>, ServiceBase<Usuario>>();
             services.AddScoped<IRepositoryBase<Usuario>, BaseRepository<Usuario>>();
 
+
+            services.AddScoped<IApplicationServicePerfil, ApplicationServicePerfil>();
+            services.AddScoped<IRepositoryPerfil, PerfilRepository>();
+            services.AddScoped<IServicePerfil, ServicePerfil>();
+            services.AddScoped<IServiceBase<Perfil>, ServiceBase<Perfil>>();
+            services.AddScoped<IRepositoryBase<Perfil>, BaseRepository<Perfil>>();
         }
 
 

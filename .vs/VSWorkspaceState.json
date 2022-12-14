@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\PontoX.Domain",
+    "\\PontoX.Domain.Core\\Interfaces",
+    "\\PontoX.Domain.Core\\Interfaces\\Repositories",
+    "\\PontoX.Domain.Core\\Interfaces\\Services",
+    "\\PontoX.Domain\\Entities",
+    "\\PontoX.Domain\\Entities\\Base",
+    "\\PontoX.Infrastucture\\Data",
+    "\\PontoX.Infrastucture\\Data\\Configurations",
+    "\\PontoX.Infrastucture\\Data\\Repositories"
+  ],
+  "SelectedNode": "\\PontoX.Domain\\Entities\\Perfil.cs",
+  "PreviewInSolutionExplorer": false
+}

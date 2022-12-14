@@ -18,7 +18,7 @@ namespace PontoX.Infrastructure.Data.Repositories
             await _context.Set<T>().AddAsync(model);
             return await _context.SaveChangesAsync() > 0;
         }
-        public async Task<bool> Remover(int id)
+        public async Task<bool> Remover(long id)
         {
             var model = await _context.Set<T>().FindAsync(id);
 
@@ -34,7 +34,7 @@ namespace PontoX.Infrastructure.Data.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> Consultar(int id)
+        public async Task<T> Consultar(long id)
         {
             return await _context.Set<T>().FindAsync(id);
         }

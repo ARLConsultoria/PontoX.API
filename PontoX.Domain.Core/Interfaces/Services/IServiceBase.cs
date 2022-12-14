@@ -9,9 +9,9 @@ namespace ServiceBlackDomain.Core.Interfaces.Services
     public interface IServiceBase<T>
     {
         Task<IEnumerable<T>> Consultar();
-        Task<T> Consultar(int id);
+        Task<T> Consultar(long id);
         Task<bool> Adicionar(T model);
         Task<bool> Atualizar(T model);
-        Task<bool> Remover(int id);
+        Task<bool> Remover(long id);
     }
 }
