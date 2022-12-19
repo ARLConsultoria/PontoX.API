@@ -25,7 +25,7 @@ namespace PontoX.API.Controllers
 
         [HttpPost]
         [Route("CadastrarPerfil")]
-        public Task<bool> Post([FromBody] PerfilRequest model)
+        public Task<bool> CadastrarPerfil([FromBody] PerfilRequest model)
         {
             return _applicationServicePerfil.CadastrarPerfil(model);
         }

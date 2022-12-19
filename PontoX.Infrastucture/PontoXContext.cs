@@ -6,6 +6,7 @@ namespace PontoX.Infrastucture
 {
     public class PontoXContext : DbContext
     {
+        public DbSet<LancamentoHoras> LancamentosHoras { get; set; }
         public DbSet<Perfil> Perfis { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         
@@ -22,6 +23,7 @@ namespace PontoX.Infrastucture
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new LancamentoHorasConfiguration());
             modelBuilder.ApplyConfiguration(new PerfilConfiguration());
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
             base.OnModelCreating(modelBuilder);

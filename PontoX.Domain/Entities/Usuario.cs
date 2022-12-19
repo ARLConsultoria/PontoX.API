@@ -11,5 +11,6 @@ namespace PontoX.Domain.Entities
         public string Nome { get; set; }
         public string CPF { get; set; }
         public bool Ativo { get; set; }
+        public List<LancamentoHoras> Horas { get; set; }
     }
 }

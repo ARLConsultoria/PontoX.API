@@ -102,11 +102,8 @@ namespace PontoX.Application
                         DataCriacao = item.DataCriacao,
                     };
                 }
-
                 perfilResponse.Add(perfil);
-
             }
-
             return perfilResponse;
         }
     }
