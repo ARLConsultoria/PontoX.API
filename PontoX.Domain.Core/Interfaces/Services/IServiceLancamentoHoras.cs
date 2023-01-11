@@ -4,5 +4,6 @@ namespace ServiceBlackDomain.Core.Interfaces.Services
 {
     public interface IServiceLancamentoHoras : IServiceBase<LancamentoHoras>
     {
+        Task<List<LancamentoHoras>> BuscarLancamentoHorasCompleto();
     }
 }

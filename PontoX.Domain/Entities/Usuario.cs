@@ -1,4 +1,5 @@
 ﻿using ServiceBlack.Domain.Entities.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PontoX.Domain.Entities
 {
@@ -11,6 +12,8 @@ namespace PontoX.Domain.Entities
         public string Nome { get; set; }
         public string CPF { get; set; }
         public bool Ativo { get; set; }
-        public List<LancamentoHoras> Horas { get; set; }
+        public long PerfilId { get; set; }
+        [ForeignKey("PerfilId")]
+        public Perfil Perfil { get; set; }  
     }
 }

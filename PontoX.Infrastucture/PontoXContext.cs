@@ -16,7 +16,7 @@ namespace PontoX.Infrastucture
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var strConnection = "server=127.0.0.1;database=trabalho;user id=root;password=Gabriel123; port=3306 ";
+            var strConnection = "server=127.0.0.1;database=trabalho1;user id=root;password=Gabriel123; port=3306 ";
             optionsBuilder.UseMySql(strConnection, ServerVersion.Parse("8.0.31-mysql"));
         }
 

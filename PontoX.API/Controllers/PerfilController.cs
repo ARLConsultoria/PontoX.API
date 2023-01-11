@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PontoX.Application.Interfaces;
 using PontoX.Application.Models.Perfil;
 
@@ -18,30 +19,64 @@ namespace PontoX.API.Controllers
 
         [HttpGet]
         [Route("ListarPerfis")]
-        public  Task<List<PerfilResponse>> ListarPerfis()
+        [Authorize]
+        public async Task<IActionResult> ListarPerfis()
         {
-            return _applicationServicePerfil.ListarPerfis();
+            try
+            {
+                return Ok( await _applicationServicePerfil.ListarPerfis());
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
+           
         }
 
         [HttpPost]
         [Route("CadastrarPerfil")]
-        public Task<bool> CadastrarPerfil([FromBody] PerfilRequest model)
+        [Authorize]
+        public async Task<IActionResult> CadastrarPerfil([FromBody] PerfilRequest model)
         {
-            return _applicationServicePerfil.CadastrarPerfil(model);
+            try
+            {
+                return Ok ( await _applicationServicePerfil.CadastrarPerfil(model));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
+            
         }
 
         [HttpDelete]
         [Route("ExcluirPerfil")]
-        public Task<bool> ExcluirPerfil(long id)
+        [Authorize]
+        public async Task<IActionResult> ExcluirPerfil(long id)
         {
-            return _applicationServicePerfil.ExcluirPerfil(id);
+            try
+            {
+                return Ok( await _applicationServicePerfil.ExcluirPerfil(id));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
 
         [HttpPut]
         [Route("AtualizarPerfil")]
-        public Task<bool> AtualizarPerfil(PerfilRequest usuario)
+        [Authorize]
+        public async Task<IActionResult> AtualizarPerfil(PerfilRequest usuario)
         {
-            return _applicationServicePerfil.AtualizarPerfil(usuario);
+            try
+            {
+                return Ok( await _applicationServicePerfil.AtualizarPerfil(usuario));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
     }
 }

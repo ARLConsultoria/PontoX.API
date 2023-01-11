@@ -1,4 +1,5 @@
-﻿using PontoX.Domain.Core.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using PontoX.Domain.Core.Interfaces.Repositories;
 using PontoX.Domain.Entities;
 using PontoX.Infrastructure.Data.Repositories;
 
@@ -12,5 +13,10 @@ namespace PontoX.Infrastucture.Infrastructure.Data.Repositories
         {
             _context = context;
         }
-    }
+
+        public async Task<Usuario> BuscarLogin(string email, string senha)
+        {
+            return await _context.Set<Usuario>().Where(x => x.Senha == senha && x.Email == email).Include(p => p.Perfil).FirstOrDefaultAsync();
+        }
+    } 
 }

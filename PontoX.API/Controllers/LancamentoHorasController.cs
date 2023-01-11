@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PontoX.Application.Interfaces;
 using PontoX.Application.Models.LancamentoHoras;
+using System.Net;
+
 
 namespace PontoX.API.Controllers
 {
@@ -15,26 +18,51 @@ namespace PontoX.API.Controllers
             _applicationServiceLancamentoHoras = applicationServiceLancamentoHoras;
         }
 
-
         [HttpGet]
         [Route("ListarHoras")]
-        public  Task<List<LancamentoHorasResponse>> ListarLancamentoHoras()
+        [Authorize]
+        public async Task<IActionResult> ListarLancamentoHoras()
+
         {
-            return _applicationServiceLancamentoHoras.ListarLancamentoHoras();
+            try
+            {
+                return Ok(await _applicationServiceLancamentoHoras.ListarLancamentoHoras());
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
 
         [HttpPost]
         [Route("CadastrarHoras")]
-        public Task<bool> CadastrarLancamentoHoras([FromBody] LancamentoHorasRequest model)
+        [Authorize]
+        public async Task<IActionResult> CadastrarLancamentoHoras([FromBody] LancamentoHorasRequest model)
         {
-            return _applicationServiceLancamentoHoras.CadastrarLancamentoHoras(model);
+            try
+            {
+                return Ok(await _applicationServiceLancamentoHoras.CadastrarLancamentoHoras(model));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
 
         [HttpPut]
         [Route("AtualizarHoras")]
-        public Task<bool> AtualizarLancamentoHoras(LancamentoHorasRequest usuario)
+        [Authorize]
+        public async Task<IActionResult> AtualizarLancamentoHoras(LancamentoHorasRequest usuario)
         {
-            return _applicationServiceLancamentoHoras.AtualizarLancamentoHoras(usuario);
+            try
+            {
+                return Ok(await _applicationServiceLancamentoHoras.AtualizarLancamentoHoras(usuario));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
+
         }
     }
 }

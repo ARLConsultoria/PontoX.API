@@ -9,34 +9,38 @@ namespace PontoX.Application
     public class ApplicationServiceUsuario : IApplicationServiceUsuario
     {
         private readonly IServiceUsuario _service;
-        public ApplicationServiceUsuario(IServiceUsuario service)
+        private readonly IServicePerfil _servicePerfil;
+        private readonly IMapper _mapper;
+        public ApplicationServiceUsuario(IServiceUsuario service, IServicePerfil servicePerfil, IMapper mapper)
         {
             _service = service;
+            _servicePerfil = servicePerfil;
+            _mapper = mapper;
         }
 
         public async Task<bool> AtualizarUsuario(UsuarioRequest request)
         {
-            return await _service.Atualizar(new Usuario()
-            {
-                Ativo = request.Ativo,
-                CPF = request.CPF,
-                Email = request.Email,
-                Nome = request.Nome,
-                Senha = request.Senha,
-                Id = request.Id
-            });
+            return await _service.Atualizar(_mapper.Map<Usuario>(request));
         }
 
         public async Task<bool> CadastrarUsuario(UsuarioRequest request)
         {
-            return await _service.Adicionar(new Usuario()
+            if (request.PerfilId == 0 || request.PerfilId == null)
             {
-                Ativo = request.Ativo,
-                CPF = request.CPF,
-                Email = request.Email,
-                Nome = request.Nome,
-                Senha = request.Senha,
-            });
+                return false;
+            }
+            else
+            {
+                var verification = await _servicePerfil.Consultar(request.PerfilId);
+                if (verification == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return await _service.Adicionar( _mapper.Map<Usuario>(request));
+                }
+            }
         }
 
         public async Task<bool> DesativarUsuario(int idCliente)
@@ -52,16 +56,20 @@ namespace PontoX.Application
             var usuarios = await _service.Consultar();
             //todo = criar autoMapper
             foreach (var item in usuarios)
-                usuarioResponses.Add(new UsuarioResponse()
-                {
-                    Ativo = item.Ativo,
-                    CPF = item.CPF,
-                    Email = item.Email,
-                    Nome = item.Nome,
-                    Senha = item.Senha,
-                });
+                usuarioResponses.Add(_mapper.Map<UsuarioResponse>(item));
 
             return usuarioResponses;
+        }
+
+        public async Task<Usuario> BuscarPor(string email, string senha)
+        {
+            var usuario = await _service.BuscarLogin(email, senha);
+            if (usuario == null)
+            {
+                return usuario;
+            }
+            else
+                return usuario;
         }
     }
 }

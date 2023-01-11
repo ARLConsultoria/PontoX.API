@@ -1,4 +1,5 @@
 ﻿using PontoX.Application.Models.Usuario;
+using PontoX.Domain.Entities;
 
 namespace PontoX.Application.Interfaces
 {
@@ -8,5 +9,6 @@ namespace PontoX.Application.Interfaces
         Task<bool> DesativarUsuario(int idCliente);
         Task<bool> AtualizarUsuario(UsuarioRequest cliente);
         Task<List<UsuarioResponse>> ListarUsuarios();
+        Task<Usuario> BuscarPor(string email, string senha);
     }
 }

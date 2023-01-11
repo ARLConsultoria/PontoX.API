@@ -13,5 +13,7 @@ namespace PontoX.Domain.Service.ServiceUsuario
         {
             _repository = repository;
         }
+
+        public async Task<Usuario> BuscarLogin(string email, string senha) => await _repository.BuscarLogin(email, senha); 
     }
 }

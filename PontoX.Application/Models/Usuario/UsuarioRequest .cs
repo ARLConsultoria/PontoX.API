@@ -14,5 +14,6 @@ namespace PontoX.Application.Models.Usuario
         public string Nome { get; set; }
         public string CPF { get; set; }
         public bool Ativo { get; set; }
+        public long PerfilId { get; set; }
     }
 }

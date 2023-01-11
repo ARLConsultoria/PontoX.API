@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PontoX.Application;
 using PontoX.Application.Interfaces;
 using PontoX.Application.Models.Usuario;
+using PontoX.Domain.Entities;
+using PontoX.Infrastucture.Infrastructure.Data.Repositories;
 
 namespace PontoX.API.Controllers
 {
@@ -15,31 +19,87 @@ namespace PontoX.API.Controllers
             _applicationServiceUsuario = applicationServiceUsuario;
         }
 
+        
+
+        [HttpPost]
+        [Route("Login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> Authenticate([FromQuery] string email, string senha )
+        {
+           
+           var user = await _applicationServiceUsuario.BuscarPor(email, senha);
+           
+           if (user == null)
+                return NotFound(new { message = "Usuário ou senha inválidos" });
+
+           var token =  ApplicationServiceToken.GerarToken(user);
+           
+           user.Senha = "";
+
+           return new
+           {
+              user = user,
+              token = token
+           };
+        }
 
         [HttpGet]
         [Route("ListarUsuarios")]
-        public  Task<List<UsuarioResponse>> ListarUsuarios()
+        [Authorize]
+        public async Task<IActionResult> ListarUsuarios()
         {
-            return  _applicationServiceUsuario.ListarUsuarios();
+            try
+            {
+                return Ok( await _applicationServiceUsuario.ListarUsuarios());
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
 
         [HttpPost]
-        public Task<bool> Post([FromBody] UsuarioRequest model)
+        [Route("CadastrarUsuario")]
+        public async Task<IActionResult> Post([FromBody] UsuarioRequest model)
         {
-            return _applicationServiceUsuario.CadastrarUsuario(model);
+            try
+            {
+                return Ok(await _applicationServiceUsuario.CadastrarUsuario(model));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
 
-        [HttpPatch]
+        [HttpDelete]
         [Route("DesativarUsuario")]
-        public Task<bool> DesativarUsuario(int id)
+        [Authorize]
+        public async Task<IActionResult> DesativarUsuario(int id)
         {
-            return _applicationServiceUsuario.DesativarUsuario(id);
+            try
+            {
+                return Ok( await _applicationServiceUsuario.DesativarUsuario(id));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
 
         [HttpPut]
-        public Task<bool> AtualizarDadosUsuario(UsuarioRequest usuario)
+        [Route("AtualizarUsuario")]
+        [Authorize]
+        public async Task<IActionResult> AtualizarDadosUsuario(UsuarioRequest usuario)
         {
-            return _applicationServiceUsuario.AtualizarUsuario(usuario);
+            try
+            {
+                return Ok( await _applicationServiceUsuario.AtualizarUsuario(usuario));
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro);
+            }
         }
     }
 }

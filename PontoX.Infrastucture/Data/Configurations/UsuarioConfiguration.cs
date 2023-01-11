@@ -17,6 +17,7 @@ namespace PontoX.Infrastucture.Infrastructure.Data.Configurations
             builder.Property(nameof(Usuario.Nome)).IsRequired();
             builder.Property(nameof(Usuario.CPF)).IsRequired();
             builder.Property(nameof(Usuario.Ativo)).IsRequired();
+            builder.Property(nameof(Usuario.PerfilId)).IsRequired();
         }
     }
 }

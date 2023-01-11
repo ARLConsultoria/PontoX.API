@@ -11,16 +11,19 @@ namespace PontoX.Application
     {
         private readonly IServiceLancamentoHoras _service;
         private readonly IServiceUsuario _serviceUsuario;
-        public ApplicationServiceLancamentoHoras(IServiceLancamentoHoras service, IServiceUsuario serviceUsuario)
+        private readonly IMapper _mapper;
+        public ApplicationServiceLancamentoHoras(IServiceLancamentoHoras service, IServiceUsuario serviceUsuario, IMapper mapper)
         {
             _service = service;
             _serviceUsuario = serviceUsuario;
+            _mapper = mapper;
         }
 
         public async Task<bool> CadastrarLancamentoHoras(LancamentoHorasRequest request)
         {
             if (request.UsuarioId > 0)
             {
+                VerificacaoLancamento(request);
                 var consulta = await _serviceUsuario.Consultar(request.UsuarioId);
                 if (consulta == null)
                 {
@@ -28,16 +31,7 @@ namespace PontoX.Application
                 }
                 else
                 {
-                    return await _service.Adicionar(new LancamentoHoras()
-                    {
-                        HoraInicio = request.HoraInicio,
-                        HoraFim = request.HoraFim,
-                        DataCriacao = request.DataCriacao,
-                        DataModificacao = request.DataModificacao,
-                        Aprovacao = request.Aprovacao,
-                        MensagemAprovacao = request.MensagemAprovacao,
-                        UsuarioId = request.UsuarioId
-                    });
+                    return await _service.Adicionar(_mapper.Map<LancamentoHoras>(request));
                 }
             }
             else
@@ -80,31 +74,41 @@ namespace PontoX.Application
         public async Task<List<LancamentoHorasResponse>> ListarLancamentoHoras()
         {
             List<LancamentoHorasResponse> lancamentoHorasResponse = new List<LancamentoHorasResponse>();
-            var LancamentosHora = await _service.Consultar();
-
-            foreach (var item in LancamentosHora)
+            var lancamentosHora = await _service.BuscarLancamentoHorasCompleto();
+            foreach (var item in lancamentosHora)
             {
-                var usuario = await _serviceUsuario.Consultar(item.UsuarioId);
-
-                var lancamento = new LancamentoHorasResponse()
-                {
-                    HoraInicio = item.HoraInicio,
-                    HoraFim = item.HoraFim,
-                    DataCriacao = item.DataCriacao,
-                    DataModificacao = item.DataModificacao,
-                    Aprovacao = item.Aprovacao,
-                    MensagemAprovacao = item.MensagemAprovacao,
-                    Usuario = new UsuarioResponse()
-                    {
-                        CPF = usuario.CPF,
-                        Ativo = usuario.Ativo, 
-                        Nome = usuario.Nome, 
-                        Email = usuario.Email,  
-                    }
-                };
-                lancamentoHorasResponse.Add(lancamento);    
+                lancamentoHorasResponse.Add(_mapper.Map<LancamentoHorasResponse>(item));
             }
             return lancamentoHorasResponse;
+        }
+
+        public async Task<LancamentoHorasRequest> VerificacaoLancamento(LancamentoHorasRequest request)
+        {
+            if (request.HoraInicio >= 8 && request.HoraFim <= 12)
+            {
+                request.Aprovacao = true;
+                return request;
+            } 
+            else if (request.HoraInicio >= 13 && request.HoraFim <= 18)
+            {
+                request.Aprovacao = true;
+                return request;
+            }
+            else
+            {
+                var mensagemAprovacao = request.MensagemAprovacao;
+
+                if (mensagemAprovacao == null || mensagemAprovacao == "" ||mensagemAprovacao == " ") 
+                {
+                    request.Aprovacao = false;
+                    return request;
+                }
+                else
+                {
+                    request.Aprovacao = true;
+                    return request;
+                }
+            }
         }
     }
 }

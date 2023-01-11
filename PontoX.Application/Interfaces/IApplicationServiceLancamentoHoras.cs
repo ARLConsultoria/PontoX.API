@@ -9,5 +9,6 @@ namespace PontoX.Application.Interfaces
         Task<bool> CadastrarLancamentoHoras(LancamentoHorasRequest cliente);
         Task<bool> AtualizarLancamentoHoras(LancamentoHorasRequest cliente);
         Task<List<LancamentoHorasResponse>> ListarLancamentoHoras();
+        Task<LancamentoHorasRequest> VerificacaoLancamento(LancamentoHorasRequest request);
     }
 }

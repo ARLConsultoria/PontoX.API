@@ -13,5 +13,6 @@ namespace PontoX.Domain.Service.ServiceLancamentoHoras
         {
             _repository = repository;
         }
+        public async Task<List<LancamentoHoras>> BuscarLancamentoHorasCompleto() => await _repository.ConsultarLancamentoHorasCompleto(); 
     }
 }

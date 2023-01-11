@@ -4,5 +4,6 @@ namespace PontoX.Domain.Core.Interfaces.Repositories
 {
     public interface IRepositoryLancamentoHoras : IRepositoryBase<LancamentoHoras>
     {
+        Task<List<LancamentoHoras>> ConsultarLancamentoHorasCompleto();
     }
 }

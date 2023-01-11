@@ -12,7 +12,7 @@ namespace PontoX.Domain.Entities
         public int HoraFim { get; set; }
         public long UsuarioId { get; set; }
         [ForeignKey("UsuarioId")]
-        public Usuario Usuario { get; set; }
+        public Usuario Usuario { get; set; }    
         public bool? Aprovacao { get; set; }
         public string? MensagemAprovacao { get; set; }
         public DateTime DataCriacao { get; set; }
